@@ -19,6 +19,10 @@ if (isset($argc))
 /**
  * Make, for TXP plugins.
  *
+ * Replaces <code>//inc <filename></code> statements in <var>$src</var> with
+ * the contents of <samp>filename</samp> and outputs <var>$combined</var>.
+ * 
+ * @author Jon-Michael Deldin <dev@jmdeldin.com>
  * @param string $src Source file
  * @param string $combined Source file with includes' contents
  * @param string $compiled Compiled file
@@ -69,6 +73,7 @@ function writeFile($filename, $contents)
     }
 }
 
+// http://code.google.com/p/textpattern/source/browse/development/4.0-plugin-template/zem_tpl.php
 function extract_section($lines, $section)
 {
     $start_delim = "# --- BEGIN PLUGIN $section ---";
