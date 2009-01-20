@@ -7,16 +7,6 @@ $plugin = array(
     'type' => 0,
     'version' => '0.1',
 );
-if (0)
-{
-?>
-# --- BEGIN PLUGIN HELP ---
-
-//inc <README>
-
-# --- END PLUGIN HELP ---
-<?php
-}
 # --- BEGIN PLUGIN CODE ---
 
 function jmd_example($atts)

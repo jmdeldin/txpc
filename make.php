@@ -47,7 +47,9 @@ function make($src, $combined, $compiled='')
         // compile and write plugin code
         if ($compiled)
         {
-            writeFile($compiled, compile_plugin($combined));
+            if (file_exists('README.textile'))
+                $help = file_get_contents('README.textile');
+            writeFile($compiled, compile_plugin($combined, (isset($help) ? $help : '')));
         }
     }
 }
@@ -88,7 +90,7 @@ function extract_section($lines, $section)
 
 }
 
-function compile_plugin($file)
+function compile_plugin($file, $help)
 {
     require $file;
     
@@ -103,10 +105,8 @@ function compile_plugin($file)
     {
         $content[$i] = rtrim($content[$i]);
     }
-
-    $plugin['help'] = trim(extract_section($content, 'HELP'));
     $plugin['code'] = extract_section($content, 'CODE');
-    $plugin['help_raw'] = $plugin['help'];
+    $plugin['help_raw'] = $help;
     $plugin['md5'] = md5($plugin['code']);
     $header = <<<EOF
 # {$plugin['name']} v{$plugin['version']}
