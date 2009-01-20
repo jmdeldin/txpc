@@ -122,7 +122,6 @@ function compile_plugin($file)
 EOF;
 
     $body = trim(chunk_split(base64_encode(gzencode(serialize($plugin))), 72));
-    header('Content-type: text/plain');
 
     return $header."\n\n".$body;
 }
