@@ -1,23 +1,23 @@
 <?php
-$plugin = array(
-    'author' => 'Jon-Michael Deldin',
-    'author_uri' => 'http://jmdeldin.com',
-    'description' => 'A glorified "Hello, World".',
-    'name' => 'jmd_example',
-    'type' => 0,
-    'version' => '0.1',
-);
-# --- BEGIN PLUGIN CODE ---
+/**
+ * @name            jmd_example
+ * @description     A glorified "Hello, World".
+ * @author          Jon-Michael Deldin
+ * @author_uri      http://jmdeldin.com
+ * @version         0.1
+ * @type            0
+ * @order           5
+ */
 
-function jmd_example($atts)
+function jmd_example($attrs, $thing)
 {
     $js = <<<EOF
 //inc <example.js>
 EOF;
-    
+
     return tag($js, 'script', ' type="text/javascript"');
 
 }
 
-# --- END PLUGIN CODE ---
 ?>
+

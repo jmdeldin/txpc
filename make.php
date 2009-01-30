@@ -7,13 +7,9 @@
 if (isset($argc))
 {
     if ($argc > 2)
-    {
         make($argv[1], $argv[2], $argv[3]);
-    }
     else
-    {
         exit("Invalid arguments provided.\n");
-    }
 }
 
 /**
@@ -21,7 +17,7 @@ if (isset($argc))
  *
  * Replaces <code>//inc <filename></code> statements in <var>$src</var> with
  * the contents of <samp>filename</samp> and outputs <var>$combined</var>.
- * 
+ *
  * @author Jon-Michael Deldin <dev@jmdeldin.com>
  * @param string $src Source file
  * @param string $combined Source file with includes' contents
@@ -40,10 +36,10 @@ function make($src, $combined, $compiled='')
             $contents = file_get_contents($filename);
             $src = str_replace($matches[0][$i], $contents, $src);
         }
-        
+
         // write merged plugin code
         writeFile($combined, $src);
-        
+
         // compile and write plugin code
         if ($compiled)
         {
@@ -56,7 +52,7 @@ function make($src, $combined, $compiled='')
 
 /**
  * Write contents to a file.
- * 
+ *
  * @param string $filename
  * @param string $contents
  */
@@ -70,44 +66,68 @@ function writeFile($filename, $contents)
         fclose($handle);
     }
     else
-    {
         exit("Unable to write to {$filename}.\n");
-    }
 }
 
-// http://code.google.com/p/textpattern/source/browse/development/4.0-plugin-template/zem_tpl.php
-function extract_section($lines, $section)
+/**
+ * Extract plugin metadata.
+ *
+ * @param string $meta
+ */
+function extractMeta($meta)
 {
-    $start_delim = "# --- BEGIN PLUGIN $section ---";
-    $end_delim = "# --- END PLUGIN $section ---";
+    foreach (array('name', 'description', 'author', 'author_uri', 'version',
+        'type', 'order') as $field)
+    {
+        $out[$field] = getField($field, $meta);
+    }
 
-    $start = array_search($start_delim, $lines) + 1;
-    $end = array_search($end_delim, $lines);
-
-    $content = array_slice($lines, $start, $end-$start);
-
-    return join("\n", $content);
-
+    return $out;
 }
 
+/**
+ * Returns a field's value.
+ *
+ * @param string $field
+ * @param string $meta
+ */
+function getField($field, &$meta)
+{
+    preg_match("/@{$field}\s+(.*)/", $meta, $field);
+
+    return ($field[1]) ? $field[1] : '';
+}
+
+/**
+ * Removes the opening and closing PHP tags.
+ *
+ * Because the <code># --- BEGIN|END PLUGIN CODE ---</code> delimiters
+ * are no longer needed, the PHP tags need to be stripped for TXP.
+ *
+ * @param string $plugin
+ */
+function extractCode($plugin)
+{
+    $plugin = str_replace('<?php', '', $plugin);
+    $plugin = str_replace('?>', '', $plugin);
+
+    return $plugin;
+}
+
+/**
+ * Compiles plugin code into base64 format.
+ *
+ * @param string $file
+ * @param string $help
+ */
 function compile_plugin($file, $help)
 {
-    require $file;
-    
-    if (!isset($plugin['name']))
-    {
-        $plugin['name'] = basename($file, '.php');
-    }
-
-    // Read the contents of this file, and strip line ends
-    $content = file($file);
-    for ($i = 0; $i < count($content); $i++)
-    {
-        $content[$i] = rtrim($content[$i]);
-    }
-    $plugin['code'] = extract_section($content, 'CODE');
-    $plugin['help_raw'] = $help;
+    $content = file_get_contents($file);
+    $plugin = extractMeta($content);
+    $plugin['code'] = extractCode($content);
     $plugin['md5'] = md5($plugin['code']);
+    $plugin['help_raw'] = $help;
+
     $header = <<<EOF
 # {$plugin['name']} v{$plugin['version']}
 # {$plugin['description']}
@@ -127,3 +147,4 @@ EOF;
 }
 
 ?>
+
