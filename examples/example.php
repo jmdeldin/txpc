@@ -16,8 +16,5 @@ function jmd_example($attrs, $thing)
 EOF;
 
     return tag($js, 'script', ' type="text/javascript"');
-
 }
-
-?>
 
