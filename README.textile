@@ -80,6 +80,5 @@ bc. | plugins/
 From the command line or in your Makefile (or Rakefile), use:
 
 bc. cd src/example
-    php ../../txpc/txpc.php ../../cache ../../releases
-
+php ../../txpc/txpc.php ../../cache ../../releases
 
