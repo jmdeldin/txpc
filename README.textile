@@ -13,7 +13,9 @@ h2. Features
 
 h2. Usage
 
-bc. $ php txpc.php my_plugin.php [cache_dir] [release_dir]
+From the command line:
+
+bc. php txpc.php my_plugin.php [cache_dir] [release_dir]
 
 * @cache_dir@: The directory for the merged plugin. Defaults to current working directory.
 * @release_dir@: The directory for the base64 text file. Defaults to cwd.
