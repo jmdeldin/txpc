@@ -64,8 +64,11 @@ In your plugin file, use the following (order is irrelevant):
    * @order        [0-9]
    */
 
-* `type`: `0`=public; `1`=public+admin; `2`=library; `3`=admin
-* `order`: `0`=first; `9`=last
+- `type`: 0 => public, 
+          1 => public+admin,
+          2 => library,
+          3 => admin
+- `order`: 0 => first, ..., 9 => last
 
 Suggested directory structure
 -----------------------------
