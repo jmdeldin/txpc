@@ -15,7 +15,7 @@ h2. Usage
 
 From the command line:
 
-bc. php txpc.php my_plugin.php [cache_dir] [release_dir]
+  php txpc.php my_plugin.php [cache_dir] [release_dir]
 
 * @cache_dir@: The directory for the merged plugin. Defaults to current working directory.
 * @release_dir@: The directory for the base64 text file. Defaults to cwd.
@@ -25,62 +25,62 @@ h3. Calling from Bash
 Save the following to somewhere accessible on your PATH (e.g., ~/bin) and
 @chmod +x@ it:
 
-bc. #!/bin/env php
-<?php
-require '/path/to/txpc.php';
+  #!/bin/env php
+  <?php
+  require '/path/to/txpc.php';
 
 h3. Running the examples
 
 If you have Make installed, run @make all@ from the examples directory.
 Otherwise, use the following:
 
-bc. php ../txpc.php example.php cache releases
+  php ../txpc.php example.php cache releases
 
 h2. Metadata format
 
 In your plugin file, use the following (order is irrelevant):
 
-bc. /**
- * @name         jmd_example
- * @description  An example plugin.
- * @author       Jon-Michael Deldin
- * @author_uri   http://jmdeldin.com
- * @type         [0-3]
- * @order        [0-9]
- */
+  /**
+   * @name         jmd_example
+   * @description  An example plugin.
+   * @author       Jon-Michael Deldin
+   * @author_uri   http://jmdeldin.com
+   * @type         [0-3]
+   * @order        [0-9]
+   */
 
 * @type@: @0@=public; @1@=public+admin; @2@=library; @3@=admin
 * @order@: @0@=first; @9@=last
 
 h2. Suggested directory structure
 
-bc. | plugins/
-| | cache/              <-- for TXP's plugin cache
-| | | jmd_example.php
-| | | jmd_save.php
-| | src/                <-- raw plugin files
-| | | example/
-| | | | example.js
-| | | | example.php
-| | | | Makefile
-| | | | README.textile
-| | | save/
-| | | | Makefile
-| | | | README.textile
-| | | | save.js
-| | | | save.php
-| | | ...
-| | txpc/               <-- compiler
-| | | examples/
-| | | | ...
-| | | README.textile
-| | | txpc.php
-| | releases/           <-- distributable plugins
-| | | jmd_example-0.1.txt
-| | | jmd_save-0.1.txt
+  | plugins/
+  | | cache/              <-- for TXP's plugin cache
+  | | | jmd_example.php
+  | | | jmd_save.php
+  | | src/                <-- raw plugin files
+  | | | example/
+  | | | | example.js
+  | | | | example.php
+  | | | | Makefile
+  | | | | README.textile
+  | | | save/
+  | | | | Makefile
+  | | | | README.textile
+  | | | | save.js
+  | | | | save.php
+  | | | ...
+  | | txpc/               <-- compiler
+  | | | examples/
+  | | | | ...
+  | | | README.textile
+  | | | txpc.php
+  | | releases/           <-- distributable plugins
+  | | | jmd_example-0.1.txt
+  | | | jmd_save-0.1.txt
 
 From the command line or in your Makefile (or Rakefile), use:
 
-bc. cd src/example
-php ../../txpc/txpc.php ../../cache ../../releases
+  cd src/example
+  php ../../txpc/txpc.php ../../cache ../../releases
 
